@@ -1,0 +1,67 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "结束已运行的 demo（可选）",
+            "type": "shell",
+            "command": "cmd",
+            "args": [
+                "/c",
+                "taskkill /IM ${fileBasenameNoExtension}.exe /F >nul 2>&1 & exit /b 0"
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "presentation": {
+                "reveal": "silent",
+                "panel": "shared"
+            },
+            "problemMatcher": []
+        },
+        {
+            "type": "cppbuild",
+            "label": "C/C++: gcc.exe 生成活动文件",
+            "dependsOn": ["结束已运行的 demo（可选）"],
+            "command": "C:\\msys64\\ucrt64\\bin\\gcc.exe",
+            "args": [
+                "-fdiagnostics-color=always",
+                "-g",
+                "${fileBasename}",
+                "-o",
+                "${fileBasenameNoExtension}.exe"
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "problemMatcher": ["$gcc"],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "detail": "在源文件所在目录编译，输出同名 .exe（避免中文路径链接问题）"
+        },
+        {
+            "label": "运行当前 demo（推荐，不用 GDB）",
+            "type": "shell",
+            "dependsOn": ["C/C++: gcc.exe 生成活动文件"],
+            "command": "cmd",
+            "args": [
+                "/c",
+                "chcp 65001 >nul & \"${fileDirname}\\${fileBasenameNoExtension}.exe\""
+            ],
+            "options": {
+                "cwd": "${fileDirname}"
+            },
+            "group": {
+                "kind": "test",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "focus": true
+            },
+            "problemMatcher": []
+        }
+    ]
+}
